@@ -6,7 +6,7 @@ const { register, login, getUser } = require("../controllers/auth.controller")
 const { isAuthenticated } = require("../middlewares/auth.middleware");
 const { isAgency, isPromoter } = require("../middlewares/user.middleware")
 const { userEdit, userDetail, userDelete } = require("../controllers/user.controller");
-const { purposalCreate } = require("../controllers/purposal.controller");
+const { purposalCreate, purposalEdit } = require("../controllers/purposal.controller");
 const { artistCreate, artistList, artistDelete, artistEdit, artistDetail } = require("../controllers/artist.controller");
 const { favorite, listFavorites } = require("../controllers/favorite.controller")
 
@@ -43,7 +43,8 @@ router.get("/artists/favorites", isAuthenticated, isPromoter, listFavorites)
 
 /* PURPOSAL */
 
-router.post("/purposal",isAuthenticated, purposalCreate)
+router.post("/purposals",isAuthenticated, isPromoter, purposalCreate)
+router.patch("/purposals/:id", isAuthenticated, isAgency,purposalEdit )
 
 
 
