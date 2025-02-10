@@ -5,6 +5,7 @@ const { getHome } = require("../controllers/misc.controller")
 const { register, login, getUser } = require("../controllers/auth.controller")
 const { isAuthenticated } = require("../middlewares/auth.middleware");
 const { userEdit, userDetail, userDelete } = require("../controllers/user.controller");
+const { purposalCreate } = require("../controllers/purposal.controller");
 
 
 router.get("/", getHome);
@@ -31,6 +32,11 @@ router.get("/list", isAuthenticated, isAgency, artistList)
 router.post("/edit/:id", isAuthenticated, isAgency, artistEdit)
 router.post("/delete/:id", isAuthenticated, isAgency, artistDelete)
 
+
+
+/* PURPOSAL */
+
+router.post("/purposal",isAuthenticated, purposalCreate)
 
 
 
