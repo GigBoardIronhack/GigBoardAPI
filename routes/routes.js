@@ -4,13 +4,16 @@ const router = Router()
 const { getHome } = require("../controllers/misc.controller")
 const { register, login, getUser } = require("../controllers/auth.controller")
 const { isAuthenticated } = require("../middlewares/auth.middleware");
+const { isAgency, isPromoter } = require("../middlewares/user.middleware")
 const { userEdit, userDetail, userDelete } = require("../controllers/user.controller");
 const { purposalCreate } = require("../controllers/purposal.controller");
+const { artistCreate, artistList, artistDelete, artistEdit, artistDetail } = require("../controllers/artist.controller");
+const { favorite, listFavorites } = require("../controllers/favorite.controller")
+
+const upload = require("../config/storage.config");
 
 
 router.get("/", getHome);
-
-const upload = require("../config/storage.config");
 
 
 /* AUTH */
@@ -21,18 +24,22 @@ router.get("/me", isAuthenticated, getUser)
 
 /* USER */
 
-router.post("/edit/:id", isAuthenticated, userEdit)
-router.post("/detail/:id", isAuthenticated, userDetail)
-router.post("/delete/:id", isAuthenticated, userDelete)
+router.get("/users/:id", isAuthenticated, userDetail)
+router.patch("/users/me", isAuthenticated, userEdit)
+router.delete("/users/me", isAuthenticated, userDelete)
 
 
 /* ARTIST */
-router.post("/create", isAuthenticated, isAgency, artistCreate)
-router.get("/list", isAuthenticated, isAgency, artistList)
-router.post("/edit/:id", isAuthenticated, isAgency, artistEdit)
-router.post("/delete/:id", isAuthenticated, isAgency, artistDelete)
+router.post("/artists/:id", isAuthenticated, isAgency, artistCreate)
+router.get("/artists", isAuthenticated, artistList)
+router.patch("/artists/:id", isAuthenticated, isAgency, artistEdit)
+router.delete("/artists/:id", isAuthenticated, isAgency, artistDelete)
+router.get("/artists/:id", isAuthenticated, artistDetail)
 
+/* FAVORITE */
 
+router.post("/artists/:artistId/favorites", isAuthenticated, isPromoter, favorite )
+router.get("/artists/favorites", isAuthenticated, isPromoter, listFavorites)
 
 /* PURPOSAL */
 

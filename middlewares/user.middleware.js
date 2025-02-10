@@ -1,17 +1,39 @@
-const User = require("../models/User.model")
+const User = require("../models/User.model");
 
 module.exports.isAgency = async (req, res, next) => {
-    try{
-        const user = await User.findById(req.currentUserId)
-        if (!user) {
-            return res.status(404).json({ success: false, message: "User not found" });
-          }
-      
-          if (user.role !== "agency") {
-            return res.status(403).json({ success: false, message: "Access denied: Not an agency" });
-          }
-        next()
-    }catch(error){
-        next(error)
+  try {
+    const user = await User.findById(req.currentUserId);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
     }
-}
+    if (user.role !== "agency") {
+      return res
+        .status(403)
+        .json({ success: false, message: "Access denied: Not an agency" });
+    }
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports.isPromoter = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.currentUserId);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+    if (user.role !== "promoter") {
+      return res
+        .status(403)
+        .json({ success: false, message: "Access denied: Not a promoter" });
+    }
+    next();
+  } catch (error) {
+    next(error);
+  }
+};

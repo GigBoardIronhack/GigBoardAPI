@@ -1,7 +1,7 @@
 const User = require("../models/User.model");
-const bcrypt = require("bcrypt");
 
 module.exports.register = async (req, res, next) => {
+  if (req.file) req.body.imageUrl = req.file.path;
   try {
     const user = await User.create(req.body);
     res.status(201).json(user);
