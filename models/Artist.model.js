@@ -36,6 +36,10 @@ const ArtistSchema = new Schema(
       required: true,
       enum: GENRES_LIST,
     },
+    basePrice: {
+      type: Number,
+      required: [true, "Base price is required"],
+    },
     timestamp: { 
       type: Date,
       default: Date.now,
