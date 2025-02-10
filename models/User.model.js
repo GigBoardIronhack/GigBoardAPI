@@ -26,7 +26,7 @@ const UserSchema = new Schema(
     },
     role: {
       type: String,
-      enum: ["agency", "promotor"],
+      enum: ["agency", "promoter"],
     },
     artists: {
       type: [

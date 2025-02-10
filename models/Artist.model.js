@@ -44,6 +44,11 @@ const ArtistSchema = new Schema(
       type: Date,
       default: Date.now,
     },
+    agency:{
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   {
     virtuals: true,
