@@ -25,6 +25,13 @@ router.post("/detail/:id", isAuthenticated, userDetail)
 router.post("/delete/:id", isAuthenticated, userDelete)
 
 
+/* ARTIST */
+router.post("/create", isAuthenticated, isAgency, artistCreate)
+router.get("/list", isAuthenticated, isAgency, artistList)
+router.post("/edit/:id", isAuthenticated, isAgency, artistEdit)
+router.post("/delete/:id", isAuthenticated, isAgency, artistDelete)
+
+
 
 
 
