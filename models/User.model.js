@@ -3,6 +3,8 @@ const bcrypt = require("bcrypt");
 const { Schema } = mongoose;
 const EMAIL_PATTERN =
   /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+  const CIF_PATTERN = /^[ABCDEFGHJKLMNPQRSUVW]\d{7}[0-9A-J]$/;
+
 const UserSchema = new Schema(
   {
     name: {
@@ -38,6 +40,14 @@ const UserSchema = new Schema(
     imageUrl: {
       type: String,
       required: true,
+    },
+    cif: {
+      type: String,
+      required: [true, "CIF is required"],
+      unique: true,
+      match: [CIF_PATTERN, "CIF is invalid"],
+      trim: true,
+      uppercase: true,
     },
     timestamp: { 
       type: Date,
