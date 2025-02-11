@@ -22,6 +22,7 @@ const ArtistSchema = new Schema(
       type: String,
       required: [true, "Name is required"],
       trim: true,
+      unique: true
     },
     imageUrl: {
       type: String,
