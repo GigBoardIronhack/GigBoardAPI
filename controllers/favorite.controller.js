@@ -4,16 +4,15 @@ const User = require("../models/User.model")
 module.exports.favorite = async (req, res, next) => {
   try {
     const userId = req.currentUserId;
-    const artistId = req.params.artistId;
+    const artistId = req.params.id;
 
-    // Intentamos eliminar el favorito si existe
+    
     const existingFavorite = await Favorite.findOneAndDelete({ promoter: userId, artist: artistId });
 
     if (existingFavorite) {
       return res.status(200).json({ message: "Like removed" });
     }
 
-    // Si no existía, lo creamos
     await Favorite.create({ promoter: userId, artist: artistId });
     res.status(201).json({ message: "Like added" });
   } catch (error) {
@@ -24,12 +23,13 @@ module.exports.favorite = async (req, res, next) => {
 module.exports.listFavorites = async (req, res, next) => {
   try {
     const userId = req.currentUserId;
+    console.log("Current User ID:", userId);
 
-    const favorites = await Favorite.find({ promoter: userId }).populate("artist")
+    const favorites = await Favorite.find({ promoter: userId }).populate("artist promoter")
 
-    if (favorites) {
-      return res.status(200).json(favorites)
-    }
+   
+     res.status(200).json(favorites)
+    
   } catch (error) {
     next(error)
   }

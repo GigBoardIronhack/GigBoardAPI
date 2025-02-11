@@ -38,13 +38,13 @@ router.get("/artists/:id", isAuthenticated, artistDetail)
 
 /* FAVORITE */
 
-router.post("/artists/:artistId/favorites", isAuthenticated, isPromoter, favorite )
-router.get("/artists/favorites", isAuthenticated, isPromoter, listFavorites)
+router.get("/favorites", isAuthenticated, isPromoter, listFavorites)
+router.post("/artists/:id/favorites", isAuthenticated, isPromoter, favorite)
 
 /* PURPOSAL */
 
 router.post("/purposals",isAuthenticated, isPromoter, purposalCreate)
-router.patch("/purposals/:id", isAuthenticated, isAgency,purposalEdit )
+router.patch("/purposals/:id", isAuthenticated, isAgency, purposalEdit)
 
 
 
