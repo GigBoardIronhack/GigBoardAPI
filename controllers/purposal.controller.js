@@ -13,9 +13,10 @@ module.exports.purposalEdit = async (req, res, next) => {
   try {
     const purposal = await Purposal.findByIdAndUpdate(
       req.params.id,
-      req.body.status,
+      {status: req.body.status},
       { new: true, runValidators: true }
     );
+    console.log(purposal)
     if (!purposal) {
       return res.status(404).json({ message: "Purposal not found" });
     }
