@@ -30,7 +30,7 @@ router.delete("/users/me", isAuthenticated, userDelete)
 
 
 /* ARTIST */
-router.post("/artists/:id", isAuthenticated, isAgency, artistCreate)
+router.post("/artists", isAuthenticated, isAgency, artistCreate)
 router.get("/artists", isAuthenticated, artistList)
 router.patch("/artists/:id", isAuthenticated, isAgency, artistEdit)
 router.delete("/artists/:id", isAuthenticated, isAgency, artistDelete)
