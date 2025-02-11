@@ -19,7 +19,7 @@ module.exports.artistDetail = async (req, res, next) => {
   }
 };
 
-module.exports.listArtist = async (req, res, next) => {
+module.exports.artistList = async (req, res, next) => {
   
   try {
     const artists = await Artist.find();
