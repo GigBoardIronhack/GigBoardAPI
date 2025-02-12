@@ -1,7 +1,7 @@
 const Message = require("../models/Message.model");
 
 // Get all messages from chat
-module.exports.create = async (req, res) => {
+module.exports.createMessage = async (req, res) => {
   const sender = req.currentUserid;
   const { text, chatId } = req.body;
 
