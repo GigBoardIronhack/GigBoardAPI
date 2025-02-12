@@ -28,7 +28,7 @@ module.exports.listFavorites = async (req, res, next) => {
     const favorites = await Favorite.find({ promoter: userId }).populate("artist")
 
     if (favorites) {
-      return res.status(200).json(favorites)
+      res.status(200).json(favorites)
     }
   } catch (error) {
     next(error)
