@@ -56,5 +56,42 @@ const PurposalSchema = new Schema(
   }
 );
 
+PurposalSchema.pre("save", async function (next) {
+  try {
+    const purposal = this;
+0
+    const promoter = await mongoose.model("User").findById(purposal.promoter);
+    const artist = await mongoose.model("Artist").findById(purposal.artist);
+
+    if (!promoter || !artist) {
+      throw new Error("Promoter or Artist not found");
+    }
+    const PRICE = artist.basePrice;
+    const { pricingModifiers } = artist; 
+
+    const promoterRolePrice = (pricingModifiers[promoter.promoterRole]) * PRICE;
+
+    let venuePrice = 0;
+    if (promoter.promoterCapacity < 1000) {
+      venuePrice = pricingModifiers.capacity.small * PRICE;
+    } else {
+      venuePrice = pricingModifiers.capacity.large * PRICE;
+    }
+    let dayWeekPrice = 0;
+    const dayOfWeek = purposal.eventDate.getDay();
+    console.log(dayOfWeek)
+    if ((dayOfWeek === 5 || dayOfWeek === 6)) {
+      dayWeekPrice = pricingModifiers.weekendBoost * PRICE;
+    }
+    purposal.negotiatedPrice = Math.round(PRICE + promoterRolePrice + venuePrice + dayWeekPrice);
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
+
+
 const Purposal = mongoose.model("Purposal", PurposalSchema);
 module.exports = Purposal;

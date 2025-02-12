@@ -30,7 +30,10 @@ const UserSchema = new Schema(
     },
     promoterRole:{
       type: String,
-      enum:["club", "festival","specialEvent"]
+      enum:["club", "festival", "specialEvent"]
+    },
+    promoterCapacity:{
+      type: Number,
     },
     artists: {
       type: [

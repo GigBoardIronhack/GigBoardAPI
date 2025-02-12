@@ -1,15 +1,25 @@
 const Purposal = require("../models/Purposal.model");
 const Artist = require("../models/Artist.model");
-const { findByIdAndDelete } = require("../models/User.model");
+const User = require("../models/User.model");
 
 module.exports.purposalCreate = async (req, res, next) => {
   try {
-    const purposal = await Purposal.create(req.body);
+    const { id } = req.params
+    const artist = await Artist.findById(id)
+    const promoter = await User.findById(req.currentUserId)
+    const purposal = await Purposal.create({
+      promoter: promoter.id,
+      artist: artist.id,
+      eventDate: req.body.eventDate,
+      status: req.body.status,
+      notes: req.body.notes
+    },);
     res.status(201).json(purposal);
   } catch (error) {
     next(error);
   }
 };
+
 
 module.exports.agencyEditPurposal = async (req, res, next) => {
   try {
@@ -50,7 +60,7 @@ module.exports.getPurposalAgency = async (req, res, next) => {
 
 module.exports.purposalDelete= async (req, res, next) =>{
     try{
-        const purposal = await findByIdAndDelete(req.params.id)
+        await Purposal.findByIdAndDelete(req.params.id)
         res.status(200).json()
     }catch(error){
         next(error)
