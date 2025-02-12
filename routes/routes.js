@@ -9,6 +9,8 @@ const { userEdit, userDetail, userDelete } = require("../controllers/user.contro
 const { purposalCreate, purposalEdit, getPurposalAgency } = require("../controllers/purposal.controller");
 const { artistCreate, artistList, artistDelete, artistEdit, artistDetail } = require("../controllers/artist.controller");
 const { favorite, listFavorites } = require("../controllers/favorite.controller")
+const { create, detail, list, chatDelete } = require ("/controllers/chat.controller.js")
+const { create } = require("../controllers/message.controller");
 
 const upload = require("../config/storage.config");
 
@@ -46,6 +48,23 @@ router.post("/artists/:id/favorites", isAuthenticated, isPromoter, favorite)
 router.get("/purposals", isAuthenticated, isAgency, getPurposalAgency)
 router.post("/purposals",isAuthenticated, isPromoter, purposalCreate)
 router.patch("/purposals/:id", isAuthenticated, isAgency, purposalEdit)
+
+/* CHATS */
+
+router.get("/chats", isAuthenticated, list);
+router.get("/chats/:chatId", isAuthenticated, detail);
+router.post("/chats", isAuthenticated, create);
+router.delete("/chats/:chatId", isAuthenticated, chatDelete);
+
+/* MESSAGES */
+
+router.post(
+  "/chats/messages/create",
+  isAuthenticated, create
+);
+
+module.exports = router;
+
 
 
 
