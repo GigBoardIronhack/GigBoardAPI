@@ -41,11 +41,24 @@ const ArtistSchema = new Schema(
       type: Number,
       required: [true, "Base price is required"],
     },
+    pricingModifiers: {
+      type: {
+        club: { type: Number, default: 0 },
+        festival: { type: Number, default: 0 },
+        specialEvent: { type: Number, default: 0 },
+        capacity: {
+          small: { type: Number, default: 0 },
+          large: { type: Number, default: 0 },
+        },
+        weekendBoost: { type: Number, default: 0 },
+      },
+      default: {},
+    },
     timestamp: { 
       type: Date,
       default: Date.now,
     },
-    agency:{
+    agency: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,

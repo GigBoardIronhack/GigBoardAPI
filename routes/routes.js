@@ -46,7 +46,7 @@ router.post("/artists/:id/favorites", isAuthenticated, isPromoter, favorite)
 /* PURPOSAL */
 
 router.get("/purposals", isAuthenticated, isAgency, getPurposalAgency)
-router.post("/purposals",isAuthenticated, isPromoter, purposalCreate)
+router.post("/artists/:id/purposal",isAuthenticated, isPromoter, purposalCreate)
 router.patch("/purposals/:id", isAuthenticated, agencyEditPurposal)
 router.delete("/purposals/:id", isAuthenticated,  purposalDelete)
 

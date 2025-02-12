@@ -22,7 +22,7 @@ app.use(express.urlencoded({extended: false}))
 app.use(router)
 
 app.use((req, res, next) => {
-  next(createError(304, "Router not found"))
+  next(createError(404, "Router not found"))
 })
 
 app.use((error, req, res, next) => {
@@ -49,8 +49,8 @@ app.use((error, req, res, next) => {
       }, {})
     : undefined;
   res.status(error.status).json(data);
-  next();
 });
+
 
 app.listen(3000, ()=>{
   console.log("Server is running on port 3000")
