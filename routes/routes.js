@@ -6,11 +6,11 @@ const { register, login, getUser } = require("../controllers/auth.controller")
 const { isAuthenticated } = require("../middlewares/auth.middleware");
 const { isAgency, isPromoter } = require("../middlewares/user.middleware")
 const { userEdit, userDetail, userDelete } = require("../controllers/user.controller");
-const { purposalCreate, purposalEdit, getPurposalAgency } = require("../controllers/purposal.controller");
+const { purposalCreate, agencyEditPurposal, getPurposalAgency, purposalDelete } = require("../controllers/purposal.controller");
 const { artistCreate, artistList, artistDelete, artistEdit, artistDetail } = require("../controllers/artist.controller");
 const { favorite, listFavorites } = require("../controllers/favorite.controller")
-const { create, detail, list, chatDelete } = require ("/controllers/chat.controller.js")
-const { create } = require("../controllers/message.controller");
+const { create, detail, list, chatDelete } = require("../controllers/chat.controller.js")
+const { createMessage } = require("../controllers/message.controller");
 
 const upload = require("../config/storage.config");
 
@@ -47,7 +47,8 @@ router.post("/artists/:id/favorites", isAuthenticated, isPromoter, favorite)
 
 router.get("/purposals", isAuthenticated, isAgency, getPurposalAgency)
 router.post("/purposals",isAuthenticated, isPromoter, purposalCreate)
-router.patch("/purposals/:id", isAuthenticated, isAgency, purposalEdit)
+router.patch("/purposals/:id", isAuthenticated, agencyEditPurposal)
+router.delete("/purposals/:id", isAuthenticated,  purposalDelete)
 
 /* CHATS */
 
@@ -60,7 +61,7 @@ router.delete("/chats/:chatId", isAuthenticated, chatDelete);
 
 router.post(
   "/chats/messages/create",
-  isAuthenticated, create
+  isAuthenticated, createMessage
 );
 
 module.exports = router;

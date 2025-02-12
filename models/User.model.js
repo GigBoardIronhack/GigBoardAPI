@@ -28,6 +28,10 @@ const UserSchema = new Schema(
       type: String,
       enum: ["agency", "promoter"],
     },
+    promoterRole:{
+      type: String,
+      enum:["club", "festival","specialEvent"]
+    },
     artists: {
       type: [
         {
