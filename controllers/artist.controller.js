@@ -29,7 +29,13 @@ module.exports.artistDetail = async (req, res, next) => {
 
 module.exports.artistList = async (req, res, next) => {
   try {
-    const artists = await Artist.find();
+    const filters = {};
+    if (req.query.name) filters.name = { $regex: req.query.name, $options: "i" };
+    
+    if (req.query.style) filters.style = { $in: req.query.style.split(",") };
+
+
+    const artists = await Artist.find(filters);
     res.status(200).json({ artists });
   } catch (error) {
     res.status(500).json({ message: error.message });
