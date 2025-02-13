@@ -51,6 +51,7 @@ const ArtistSchema = new Schema(
           large: { type: Number, default: 0 },
         },
         weekendBoost: { type: Number, default: 0 },
+        monthBoost: { type: Number, default: 0 }
       },
       default: {},
     },

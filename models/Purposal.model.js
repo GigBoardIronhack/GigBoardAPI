@@ -56,7 +56,7 @@ const PurposalSchema = new Schema(
   }
 );
 
-PurposalSchema.pre("save", async function (next) {
+PurposalSchema.pre("validate", async function (next) {
   try {
     const purposal = this;
 0
@@ -78,12 +78,25 @@ PurposalSchema.pre("save", async function (next) {
       venuePrice = pricingModifiers.capacity.large * PRICE;
     }
     let dayWeekPrice = 0;
+    let monthYearPrice = 0;
     const dayOfWeek = purposal.eventDate.getDay();
-    console.log(dayOfWeek)
+    const monthOfYear = purposal.eventDate.getMonth();
+
     if ((dayOfWeek === 5 || dayOfWeek === 6)) {
       dayWeekPrice = pricingModifiers.weekendBoost * PRICE;
     }
-    purposal.negotiatedPrice = Math.round(PRICE + promoterRolePrice + venuePrice + dayWeekPrice);
+    
+    if(monthOfYear === 5 || monthOfYear === 6 || monthOfYear === 7){
+      monthYearPrice = pricingModifiers.monthBoost * PRICE;
+      console.log(monthYearPrice)
+    }
+    console.log("PRICE",PRICE)
+    console.log("promoterRolePrice",promoterRolePrice)
+    console.log("venuePrice",venuePrice)
+    console.log("dayWeekPrice",dayWeekPrice)
+    console.log("monthYearPrice",monthYearPrice)
+    purposal.negotiatedPrice = Math.round(PRICE + promoterRolePrice + venuePrice + dayWeekPrice + monthYearPrice);
+    console.log(purposal.negotiatedPrice)
 
     next();
   } catch (error) {
