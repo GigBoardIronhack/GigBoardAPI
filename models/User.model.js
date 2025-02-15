@@ -42,7 +42,6 @@ const UserSchema = new Schema(
           ref: "Artist",
         },
       ],
-      required: true,
     },
     imageUrl: {
       type: String,
@@ -72,18 +71,22 @@ const UserSchema = new Schema(
         delete ret.__v;
         delete ret.password;
         return ret;
-      },
+      },  
     },
   }
 );
 
 UserSchema.pre("save", function (next) {
-  const user = this;
-  if (user.isModified("password")) {
-    bcrypt.hash(user.password, 10).then((hash) => {
-      user.password = hash;
+  if (this.role === "promoter" && Array.isArray(this.artists) && this.artists.length === 0) {
+    this.artists = undefined; 
+    this.markModified("artists"); 
+  }
+
+  if (this.isModified("password")) {
+    bcrypt.hash(this.password, 10).then((hash) => {
+      this.password = hash;
       next();
-    });
+    }).catch(err => next(err)); 
   } else {
     next();
   }
