@@ -27,8 +27,8 @@ router.get("/me", isAuthenticated, getUser)
 /* USER */
 
 router.get("/users/:id", isAuthenticated, userDetail)
-router.patch("/users/me", isAuthenticated, userEdit)
-router.delete("/users/me", isAuthenticated, userDelete)
+router.patch("/users/:id", isAuthenticated, userEdit)
+router.delete("/users/:id", isAuthenticated, userDelete)
 
 
 /* ARTIST */
