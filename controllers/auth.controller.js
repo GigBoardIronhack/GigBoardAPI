@@ -34,7 +34,10 @@ module.exports.login = async (req, res, next) => {
       process.env.JWT_SECRET || "changeme",
       { expiresIn: "1d" }
     );
-    res.status(200).json({ accessToken: token });
+    res.status(200).json({ 
+      accessToken: token, 
+      user: { id: user.id, role: user.role}
+     });
   } catch (error) {
     next(error);
   }
