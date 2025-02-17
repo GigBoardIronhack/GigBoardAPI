@@ -11,6 +11,8 @@ module.exports.userDetail = async (req, res, next) => {
 
 module.exports.userEdit = async (req, res, next) => {
   try {
+    console.log(req.body)
+    console.log(req.currentUserId)
     const user = await User.findByIdAndUpdate(req.currentUserId, req.body, {
       new: true,
     });

@@ -6,6 +6,7 @@ const router = require("./routes/routes");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const createError = require("http-errors")
+const logger = require("morgan")
 
 const app = express();
 
@@ -20,6 +21,8 @@ app.use(
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 app.use(router)
+
+app.use(logger("dev"))
 
 app.use((req, res, next) => {
   next(createError(404, "Router not found"))
