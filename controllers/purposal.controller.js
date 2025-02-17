@@ -20,7 +20,6 @@ module.exports.purposalCreate = async (req, res, next) => {
   }
 };
 
-
 module.exports.agencyEditPurposal = async (req, res, next) => {
   try {
     const purposal = await Purposal.findByIdAndUpdate(
@@ -42,7 +41,7 @@ module.exports.agencyEditPurposal = async (req, res, next) => {
   }
 };
 
-module.exports.getPurposalAgency = async (req, res, next) => {
+module.exports.listAgencyPurposal = async (req, res, next) => {
     try{
         const agencyId = req.currentUserId;
         const artists = await Artist.find({ agency: agencyId }).select("id");
@@ -56,6 +55,29 @@ module.exports.getPurposalAgency = async (req, res, next) => {
     }catch(error){
         next(error)
     }
+}
+
+module.exports.listPromoterPurposal = async (req, res, next) =>{
+  try{
+    const promoterId = req.currentUserId
+    const purposals = await Purposal.find({ promoter: promoterId } ).populate("artist");
+    res.status(200).json(purposals);
+
+  }catch(error){
+    next(error)
+  }
+}
+
+
+
+module.exports.getPurposal = async (req, res, next)=>{
+  try{
+     const purposalId = req.params.id;  
+    const purposal = await Purposal.findById({ purposalId }).populate("promoter artist");
+          res.status(200).json(purposal);
+  }catch(error){
+    next(error)
+  }
 }
 
 module.exports.purposalDelete= async (req, res, next) =>{

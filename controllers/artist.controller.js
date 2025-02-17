@@ -42,6 +42,21 @@ module.exports.artistList = async (req, res, next) => {
   }
 };
 
+module.exports.agencyArtistList = async (req, res, next) =>{
+  try{
+    const agencyId = req.currentUserId;
+        const artists = await Artist.find({ agency: agencyId })
+        if (!artists.length) {
+          return res.status(200).json([]);
+        }
+        res.status(200).json(artists);
+  }catch(error){
+    next(error)
+  }
+}
+
+
+
 module.exports.artistEdit = async (req, res, next) => {
   try {
     const artist = await Artist.findByIdAndUpdate(req.params.id, req.body, {
@@ -75,21 +90,3 @@ module.exports.artistDelete = async (req, res, next) => {
   }
 };
 
-/* module.exports.artistCreate = async (req, res, next) => {
-  if (req.file) req.body.imageUrl = req.file.path;
-
-  const artist = new Artist({
-    name: req.body.name,
-    imageUrl: req.body.imageUrl,
-    description:req.body.description,
-    style:req.body.style,
-    basePrice:req.body.basePrice,
-    agency:req.body.agency,
-  })
-  try {
-    const newArtist = await artist.save();
-    res.status(201).json(newArtist);
-  } catch (error) {
-    res.status(400).json({ message: error.message })
-  }
-} */
