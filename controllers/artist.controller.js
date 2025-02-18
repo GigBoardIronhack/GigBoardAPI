@@ -3,6 +3,7 @@ const User = require("../models/User.model");
 
 module.exports.artistCreate = async (req, res, next) => {
   if (req.file) req.body.imageUrl = req.file.path;
+  console.log(req.body)
   try {
     const artistData = {
       ...req.body,

@@ -9,7 +9,7 @@ module.exports.favorite = async (req, res, next) => {
     
     const existingFavorite = await Favorite.findOneAndDelete({ promoter: userId, artist: artistId });
 
-    if (existingFavorite) {
+    if (existingFavorite) { 
       return res.status(200).json({ message: "Like removed" });
     }
 

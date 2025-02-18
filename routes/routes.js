@@ -35,7 +35,7 @@ router.delete("/users/:id", isAuthenticated, userDelete)
 router.get("/artists/agency", isAuthenticated, agencyArtistList)
 router.get("/artists/:id", isAuthenticated, artistDetail)
 router.get("/artists", isAuthenticated, isPromoter, artistList)
-router.post("/artists", isAuthenticated, isAgency, artistCreate)
+router.post("/artists", isAuthenticated, isAgency,upload.single("imageUrl"), artistCreate)
 router.patch("/artists/:id", isAuthenticated, isAgency, artistEdit)
 router.delete("/artists/:id", isAuthenticated, isAgency, artistDelete)
 
