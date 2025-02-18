@@ -11,6 +11,7 @@ module.exports.userDetail = async (req, res, next) => {
 
 module.exports.userEdit = async (req, res, next) => {
   try {
+    if (req.file) req.body.imageUrl = req.file.path;
     console.log(req.body)
     console.log(req.currentUserId)
     const user = await User.findByIdAndUpdate(req.currentUserId, req.body, {
