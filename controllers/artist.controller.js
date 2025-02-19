@@ -5,10 +5,26 @@ module.exports.artistCreate = async (req, res, next) => {
   if (req.file) req.body.imageUrl = req.file.path;
   console.log(req.body)
   try {
+    console.log("Datos Recibidos:", req.body);
+
     const artistData = {
-      ...req.body,
+      ...req.body, 
+      basePrice: Number(req.body.basePrice),
+      pricingModifiers: {
+        club: Number(req.body.club),
+        festival: Number(req.body.festival),
+        specialEvent: Number(req.body.specialEvent),
+        capacity: {
+          small: Number(req.body.small),
+          large: Number(req.body.large)
+        },
+        weekendBoost: Number(req.body.weekendBoost),
+        monthBoost: Number(req.body.monthBoost)
+      },
       agency: req.currentUserId,
     };
+
+    console.log("Datos Transformados para Guardar:", artistData);
     const newArtist = await Artist.create(artistData);
     res.status(201).json(newArtist);
     const updateUser = await User.findById(req.currentUserId);
