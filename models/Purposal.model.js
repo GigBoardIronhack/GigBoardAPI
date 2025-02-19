@@ -59,7 +59,7 @@ const PurposalSchema = new Schema(
 PurposalSchema.pre("validate", async function (next) {
   try {
     const purposal = this;
-0
+
     const promoter = await mongoose.model("User").findById(purposal.promoter);
     const artist = await mongoose.model("Artist").findById(purposal.artist);
 

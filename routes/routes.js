@@ -27,7 +27,7 @@ router.get("/me", isAuthenticated, getUser)
 /* USER */
 
 router.get("/users/:id", isAuthenticated, userDetail)
-router.patch("/users/:id", isAuthenticated, userEdit)
+router.patch("/users/me", isAuthenticated, upload.single("imageUrl"), userEdit)
 router.delete("/users/:id", isAuthenticated, userDelete)
 
 
