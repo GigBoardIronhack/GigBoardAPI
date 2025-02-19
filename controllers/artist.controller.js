@@ -8,7 +8,7 @@ module.exports.artistCreate = async (req, res, next) => {
     console.log("Datos Recibidos:", req.body);
 
     const artistData = {
-      ...req.body, 
+      ...req.body,
       basePrice: Number(req.body.basePrice),
       pricingModifiers: {
         club: Number(req.body.club),
