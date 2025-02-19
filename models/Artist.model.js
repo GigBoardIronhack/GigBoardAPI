@@ -15,6 +15,8 @@ const GENRES_LIST = [
   "latin", "salsa", "bachata", "flamenco",
   "experimental", "ambient", "lo-fi"
 ];
+const SPOTIFY_URL_REGEX = /^https:\/\/open\.spotify\.com\/(artist|album|track|playlist|episode|show)\/[a-zA-Z0-9]{22}(\?.*)?$/;
+
 
 const ArtistSchema = new Schema(
   {
@@ -29,6 +31,14 @@ const ArtistSchema = new Schema(
       required: true,
     },
     description: {
+      type: String,
+      required: true,
+    },
+    spotiUrl: {
+      type: String,
+      trim:true,
+    },
+    youtubeUrl: {
       type: String,
       required: true,
     },
