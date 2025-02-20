@@ -74,7 +74,7 @@ module.exports.listPromoterPurposal = async (req, res, next) =>{
 module.exports.getPurposal = async (req, res, next)=>{
   try{
      const purposalId = req.params.id;  
-    const purposal = await Purposal.findById({ purposalId }).populate("promoter artist");
+    const purposal = await Purposal.findById({ purposalId }).populate("artist");
           res.status(200).json(purposal);
   }catch(error){
     next(error)
