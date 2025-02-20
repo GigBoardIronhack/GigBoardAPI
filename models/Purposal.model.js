@@ -63,6 +63,8 @@ PurposalSchema.pre("validate", async function (next) {
     const promoter = await mongoose.model("User").findById(purposal.promoter);
     const artist = await mongoose.model("Artist").findById(purposal.artist);
 
+    
+
     if (!promoter || !artist) {
       throw new Error("Promoter or Artist not found");
     }
@@ -79,6 +81,8 @@ PurposalSchema.pre("validate", async function (next) {
     }
     let dayWeekPrice = 0;
     let monthYearPrice = 0;
+
+    
     const dayOfWeek = purposal.eventDate.getDay();
     const monthOfYear = purposal.eventDate.getMonth();
 
