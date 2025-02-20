@@ -4,6 +4,7 @@ const User = require("../models/User.model");
 
 module.exports.purposalCreate = async (req, res, next) => {
   try {
+    console.log("Received data in backend:", req.body);
     const { id } = req.params
     const artist = await Artist.findById(id)
     const promoter = await User.findById(req.currentUserId)
