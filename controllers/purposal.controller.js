@@ -22,13 +22,15 @@ module.exports.purposalCreate = async (req, res, next) => {
   }
 };
 
-module.exports.agencyEditPurposal = async (req, res, next) => {
+module.exports.editPurposal = async (req, res, next) => {
   try {
+    console.log("Datos recibidos en el backend:", req.body);
     const purposal = await Purposal.findByIdAndUpdate(
       req.params.id,
       {
         status: req.body.status,
-        eventDate: req.body.eventDate
+        eventDate: req.body.eventDate,
+        negotiatedPrice: req.body.negotiatedPrice
         
       },
       { new: true, runValidators: true }
@@ -42,8 +44,7 @@ module.exports.agencyEditPurposal = async (req, res, next) => {
     next(error);
   }
 };
-
-
+  
 module.exports.listAgencyPurposal = async (req, res, next) => {
     try{
         const agencyId = req.currentUserId;
