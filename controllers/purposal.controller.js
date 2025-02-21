@@ -4,13 +4,19 @@ const User = require("../models/User.model");
 
 module.exports.purposalCreate = async (req, res, next) => {
   try {
-    console.log("Received data in backend:", req.body);
     const { id } = req.params
-    const artist = await Artist.findById(id)
-    const promoter = await User.findById(req.currentUserId)
+    const promoterId =req.currentUserId
+    const existingPurposal = await Purposal.findOne({
+      promoter: promoterId,
+      artist: id,
+    });
+    if(existingPurposal) {
+      return res.status(400).json({message: "Ya ha hecho una propuesta para este artista, puede editarla si lo desea"})
+    }
+    
     const purposal = await Purposal.create({
-      promoter: promoter.id,
-      artist: artist.id,
+      promoter: promoterId,
+      artist: id,
       eventDate: req.body.eventDate,
       status: req.body.status,
       notes: req.body.notes
