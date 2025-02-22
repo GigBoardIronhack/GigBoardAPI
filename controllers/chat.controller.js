@@ -3,7 +3,7 @@ const Message = require("../models/Message.model");
 
 // Get all chats
 module.exports.list = async (req, res) => {
-  const userId = req.currentUserid;
+  const userId = req.currentUserId;
 
   try {
     const chats = await Chat.find({ participants: userId });
@@ -29,7 +29,7 @@ module.exports.detail = async (req, res) => {
 
 // Create a new chat
 module.exports.create = async (req, res) => {
-  const user1 = req.currentUserid;
+  const user1 = req.currentUserId;
   const user2 = req.body.userId;
 
   const chat = new Chat({

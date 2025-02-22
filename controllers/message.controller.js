@@ -2,13 +2,13 @@ const Message = require("../models/Message.model");
 
 // Get all messages from chat
 module.exports.createMessage = async (req, res) => {
-  const sender = req.currentUserid;
+  const sender = req.currentUserId;
   const { text, chatId } = req.body;
 
   const message = new Message({
     chatId,
     text,
-    sender,
+    sender, 
   });
 
   try {
