@@ -13,6 +13,7 @@ module.exports.createMessage = async (req, res) => {
 
   try {
     const newMessage = await message.save();
+    newMessage = await newMessage.populate('sender');
     console.log("entro aqui=?", newMessage);
     res.status(201).json(newMessage);
   } catch (error) {
