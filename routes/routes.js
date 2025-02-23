@@ -11,6 +11,7 @@ const { artistCreate, artistList, artistDelete, artistEdit, artistDetail, agency
 const { favorite, listFavorites } = require("../controllers/favorite.controller")
 const { create, detail, list, chatDelete } = require("../controllers/chat.controller.js")
 const { createMessage } = require("../controllers/message.controller");
+const { listRecommendedArtists } = require("../controllers/artist.controller");
 
 const upload = require("../config/storage.config");
 
@@ -34,10 +35,11 @@ router.delete("/users/:id", isAuthenticated, userDelete)
 /* ARTIST */
 router.get("/artists/agency", isAuthenticated, agencyArtistList)
 router.get("/artists/:id", isAuthenticated, artistDetail)
-router.get("/artists", isAuthenticated, isPromoter, artistList)
+router.get("/artists", isAuthenticated, artistList)
 router.post("/artists", isAuthenticated, isAgency,upload.single("imageUrl"), artistCreate)
 router.patch("/artists/:id", isAuthenticated,isAgency,upload.single("imageUrl"), isAgency, artistEdit)
 router.delete("/artists/:id", isAuthenticated, isAgency, artistDelete)
+router.get("/recommended", isAuthenticated, isPromoter, listRecommendedArtists);
 
 /* FAVORITE */
 

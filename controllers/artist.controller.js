@@ -1,5 +1,7 @@
 const Artist = require("../models/Artist.model");
 const User = require("../models/User.model");
+const Favorite = require("../models/Favorite.model");
+const Purposal = require("../models/Purposal.model");
 
 module.exports.artistCreate = async (req, res, next) => {
   if (req.file) req.body.imageUrl = req.file.path;
@@ -107,3 +109,39 @@ module.exports.artistDelete = async (req, res, next) => {
   }
 };
 
+module.exports.listRecommendedArtists = async (req, res) => {
+  try {
+    const promoterId = req.currentUserId
+
+    const favoriteArtists = await Favorite.find({ promoter: promoterId }).populate("artist");
+    const favoriteStyles = favoriteArtists.flatMap((fav) => fav.artist.style);
+    const purposalArtists = await Purposal.find({ promoter: promoterId }).populate("artist");
+    const purposalStyles = purposalArtists.flatMap((purposal) => purposal.artist.style);
+    const allStyles = [...favoriteStyles, ...purposalStyles];
+    const styleFrequency = allStyles.reduce((acc, style) => {
+      acc[style] = (acc[style] || 0) + 1;
+      return acc;
+    }, {});
+
+    const sortedStyles = Object.entries(styleFrequency)
+      .sort((a, b) => b[1] - a[1])
+      .map(([style]) => style);
+    const excludedArtists = [
+      ...favoriteArtists.map((fav) => fav.artist._id.toString()),
+      ...purposalArtists.map((purposal) => purposal.artist.id.toString()),
+    ];
+
+    const recommendedArtists = await Artist.find({
+      style: { $in: sortedStyles },
+      id: { $nin: excludedArtists },
+    })
+      .limit(10)
+      .lean();
+      console.log("🎯 Artistas recomendados desde el backend:", recommendedArtists);
+      return res.json(recommendedArtists);
+      
+  } catch (error) {
+    console.error("Error obteniendo artistas recomendados:", error);
+    return res.status(500).json({ message: "Error interno del servidor" });
+  }
+};
