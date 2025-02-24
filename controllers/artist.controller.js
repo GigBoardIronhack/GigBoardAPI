@@ -77,7 +77,10 @@ module.exports.agencyArtistList = async (req, res, next) =>{
 
 
 module.exports.artistEdit = async (req, res, next) => {
+  if (req.file) req.body.imageUrl = req.file.path;
+  
   try {
+
     const artist = await Artist.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
