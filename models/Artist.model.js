@@ -30,6 +30,17 @@ const ArtistSchema = new Schema(
       type: String,
       required: true,
     },
+    arrayImageUrl: {
+      type: [String]
+    },
+    rrss: {
+      type: {
+        instagram: { type: String },
+        tiktok: { type: String },
+        facebook: { type: String },
+        twitter: { type: String }
+      }
+    },
     description: {
       type: String,
       required: true,
@@ -40,7 +51,6 @@ const ArtistSchema = new Schema(
     },
     youtubeUrl: {
       type: String,
-      required: true,
     },
     style: {
       type: [String],
