@@ -38,7 +38,6 @@ const ArtistSchema = new Schema(
         twitter: { type: String }
       },
       default:{}
-
     },
     description: {
       type: String,
