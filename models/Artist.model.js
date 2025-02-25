@@ -30,16 +30,15 @@ const ArtistSchema = new Schema(
       type: String,
       required: true,
     },
-    arrayImageUrl: {
-      type: [String]
-    },
     rrss: {
       type: {
         instagram: { type: String },
         tiktok: { type: String },
         facebook: { type: String },
         twitter: { type: String }
-      }
+      },
+      default:{}
+
     },
     description: {
       type: String,

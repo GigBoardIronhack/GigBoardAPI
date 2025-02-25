@@ -23,6 +23,12 @@ module.exports.artistCreate = async (req, res, next) => {
         weekendBoost: Number(req.body.weekendBoost),
         monthBoost: Number(req.body.monthBoost)
       },
+      rrss: {
+        instagram: req.body.instagram,
+        tiktok: req.body.tiktok,
+        facebook: req.body.facebook,
+        twitter : req.body.twitter
+      },
       agency: req.currentUserId,
     };
 
@@ -78,18 +84,30 @@ module.exports.agencyArtistList = async (req, res, next) =>{
 
 module.exports.artistEdit = async (req, res, next) => {
   if (req.file) req.body.imageUrl = req.file.path;
-  
+  console.log("editar artista", req.body)
   try {
-
-    const artist = await Artist.findByIdAndUpdate(req.params.id, req.body, {
+    console.log()
+    const artist = await Artist.findByIdAndUpdate(req.params.id, 
+      {
+        ...req.body,
+        rrss:{
+          instagram: req.body.instagram,
+          tiktok: req.body.tiktok,
+          facebook: req.body.facebook,
+          twitter: req.body.twitter
+        }
+      }
+      , {
       new: true,
       runValidators: true,
     });
+    
     if (!artist) {
       return res.status(404).json({ message: "Artist not found" });
     }
 
     res.status(200).json(artist);
+    console.log("Artista actualizado en DB:", artist);
   } catch (error) {
     next(error);
   }
