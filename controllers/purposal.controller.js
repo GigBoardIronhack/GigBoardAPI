@@ -18,6 +18,7 @@ module.exports.purposalCreate = async (req, res, next) => {
       promoter: promoterId,
       artist: id,
       eventDate: req.body.eventDate,
+      purposalChat: req.body.purposalChat,
       status: req.body.status,
       notes: req.body.notes
     },);

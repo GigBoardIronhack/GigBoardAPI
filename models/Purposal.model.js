@@ -27,6 +27,11 @@ const PurposalSchema = new Schema(
         message: "Event date must be in the future",
       },
     },
+    purposalChat: {
+      type: Schema.Types.ObjectId,
+      ref: "Chat",
+      required: true,
+    },
     status: {
       type: String,
       enum: ["pending", "accepted", "rejected"],

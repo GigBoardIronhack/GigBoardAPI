@@ -49,10 +49,8 @@ module.exports.chatDelete = async (req, res) => {
   const chatId = req.params.chatId;
 
   try {
-    const chat = await Chat.findById(chatId);
-    if (!chat) return res.status(404).json({ message: "Chat not found" });
-
-    await chat.remove();
+    await Message.deleteMany({chatId: chatId})
+    await Chat.findByIdAndDelete(chatId);
     res.status(200).json({ message: "Chat deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
