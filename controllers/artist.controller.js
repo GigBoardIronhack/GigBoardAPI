@@ -45,7 +45,7 @@ module.exports.artistCreate = async (req, res, next) => {
 
 module.exports.artistDetail = async (req, res, next) => {
   try {
-    const artist = await Artist.findById(req.params.id).populate("agency");
+    const artist = await Artist.findById(req.params.id).populate("agency purposals");
     res.status(200).json(artist);
   } catch (error) {
     res.status(500).json(error);

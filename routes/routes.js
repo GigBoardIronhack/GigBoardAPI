@@ -6,7 +6,7 @@ const { register, login, getUser } = require("../controllers/auth.controller")
 const { isAuthenticated } = require("../middlewares/auth.middleware");
 const { isAgency, isPromoter } = require("../middlewares/user.middleware")
 const { userEdit, userDetail, userDelete } = require("../controllers/user.controller");
-const { purposalCreate, editPurposal, listAgencyPurposal, purposalDelete, getPurposal, listPromoterPurposal } = require("../controllers/purposal.controller");
+const { purposalCreate, editPurposal, listAgencyPurposal, purposalDelete, getPurposal, listPromoterPurposal,getPurposalsByArtist } = require("../controllers/purposal.controller");
 const { artistCreate, artistList, artistDelete, artistEdit, artistDetail, agencyArtistList } = require("../controllers/artist.controller");
 const { favorite, listFavorites } = require("../controllers/favorite.controller")
 const { create, detail, list, chatDelete } = require("../controllers/chat.controller.js")
@@ -48,12 +48,14 @@ router.post("/artists/:id/favorites", isAuthenticated, isPromoter, favorite)
 
 /* PURPOSAL */
 
+
 router.get("/purposals/promoter", isAuthenticated, isPromoter, listPromoterPurposal)
 router.get("/purposals/:id", isAuthenticated, getPurposal)
 router.get("/purposals", isAuthenticated, isAgency, listAgencyPurposal)
 router.post("/artists/:id/purposal",isAuthenticated, isPromoter, purposalCreate)
 router.patch("/purposals/:id", isAuthenticated, editPurposal)
 router.delete("/purposals/:id", isAuthenticated,  purposalDelete)
+
 
 /* CHATS */
 

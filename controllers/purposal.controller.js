@@ -22,6 +22,9 @@ module.exports.purposalCreate = async (req, res, next) => {
       status: req.body.status,
       notes: req.body.notes
     },);
+    await Artist.findByIdAndUpdate(id, {
+      $push: { purposals: purposal.id },
+    });
     const populatedPurposal = await Purposal.findById(purposal.id).populate("artist");
     res.status(201).json(populatedPurposal);
   } catch (error) {

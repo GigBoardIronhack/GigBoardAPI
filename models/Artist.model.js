@@ -55,6 +55,9 @@ const ArtistSchema = new Schema(
       required: true,
       enum: GENRES_LIST,
     },
+    purposals: {
+      type:[{ type: mongoose.Schema.Types.ObjectId, ref: "Purposal" }],
+    },
     basePrice: {
       type: Number,
       required: [true, "Base price is required"],
