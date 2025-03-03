@@ -39,8 +39,15 @@ module.exports.artistCreate = async (req, res, next) => {
     updateUser.artists.push(newArtist.id);
     await updateUser.save();
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    if (error.name === "ValidationError") {
+      const errors = {};
+      
+      Object.keys(error.errors).forEach((field) => {
+        errors[field] = error.errors[field].message; 
+      });
+    res.status(400).json({ errors });
   }
+}
 };
 
 module.exports.artistDetail = async (req, res, next) => {

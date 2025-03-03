@@ -1,6 +1,7 @@
 const User = require("../models/User.model");
 const createError = require("http-errors")
 const jwt = require("jsonwebtoken")
+const multer = require("multer");
 
 module.exports.register = async (req, res, next) => {
   if (req.file) req.body.imageUrl = req.file.path;
@@ -8,7 +9,21 @@ module.exports.register = async (req, res, next) => {
     const user = await User.create(req.body);
     res.status(201).json(user);
   } catch (error) {
-    next(error);
+    if (error.code === 11000) {
+      const field = Object.keys(error.keyPattern)[0]; 
+      return res.status(400).json({ errors: { [field]: `${field} ya está registrado` } });
+    }
+    if (error.name === "ValidationError") {
+      const errors = {};
+      
+      Object.keys(error.errors).forEach((field) => {
+        errors[field] = error.errors[field].message; 
+      });
+    
+      return res.status(400).json({ errors });
+    }
+
+    res.status(500).json({ message: "Error en el servidor" });
   }
 };
 

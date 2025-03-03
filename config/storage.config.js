@@ -1,6 +1,7 @@
 const cloudinary = require("cloudinary").v2;
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const multer = require("multer");
+const createError = require("http-errors")
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -15,5 +16,16 @@ const storage = new CloudinaryStorage({
     folder: "post-gallery",
   },
 });
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+    cb(null, true);
+  } else {
+    cb(createError(400,"Image error"), false);
+  }
+};
+  const upload = multer ({
+    storage,
+    fileFilter,
+  });
 
-module.exports = multer({ storage });
+module.exports = upload;

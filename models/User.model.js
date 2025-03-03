@@ -4,6 +4,7 @@ const { Schema } = mongoose;
 const EMAIL_PATTERN =
   /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
   const CIF_PATTERN = /^[ABCDEFGHJKLMNPQRSUVW]\d{7}[0-9A-J]$/;
+  const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
 
 const UserSchema = new Schema(
   {
@@ -23,6 +24,10 @@ const UserSchema = new Schema(
     password: {
       type: String,
       required: [true, "Password is required"],
+      match: [
+        PASSWORD_PATTERN,
+        "La contraseña debe contener mayusculas, minusculas, y números",
+      ],
     },
     role: {
       type: String,
