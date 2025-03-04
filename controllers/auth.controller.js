@@ -2,11 +2,36 @@ const User = require("../models/User.model");
 const createError = require("http-errors")
 const jwt = require("jsonwebtoken")
 const multer = require("multer");
+const nodemailer = require('nodemailer');
 
 module.exports.register = async (req, res, next) => {
   if (req.file) req.body.imageUrl = req.file.path;
   try {
     const user = await User.create(req.body);
+    const transporter = nodemailer.createTransport({
+      host: process.env.EMAIL_HOST,
+      port: process.env.EMAIL_PORT,
+      secure: false,
+      requireTLS: true, // true si usas el puerto 465
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    // ✨ Configuración del correo
+    const mailOptions = {
+      from: `"GigBoard" <${process.env.EMAIL_USER}>`, 
+      to: user.email, 
+      subject: "Bienvenido a GigBoard", 
+      text: `¡Hola ${user.name}!\n\nBienvenido a GigBoard. Estamos emocionados de tenerte con nosotros. ¡Esperamos que disfrutes de la experiencia!`, 
+      html: `<b>¡Hola ${user.name}!</b><br><br>Bienvenido a GigBoard. Estamos emocionados de tenerte con nosotros. ¡Esperamos que disfrutes de la experiencia como ${user.role} !`,
+    };
+
+    // ✨ Enviar el correo
+    await transporter.sendMail(mailOptions);
+    console.log("Correo enviado correctamente a:", user.email);
+    
     res.status(201).json(user);
   } catch (error) {
     if (error.code === 11000) {
