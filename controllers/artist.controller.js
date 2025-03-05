@@ -97,12 +97,25 @@ module.exports.artistEdit = async (req, res, next) => {
     const artist = await Artist.findByIdAndUpdate(req.params.id, 
       {
         ...req.body,
-        rrss:{
-          instagram: req.body.instagram,
-          tiktok: req.body.tiktok,
-          facebook: req.body.facebook,
-          twitter: req.body.twitter
-        }
+      basePrice: Number(req.body.basePrice),
+      pricingModifiers: {
+        club: Number(req.body.club),
+        festival: Number(req.body.festival),
+        specialEvent: Number(req.body.specialEvent),
+        capacity: {
+          small: Number(req.body.small),
+          large: Number(req.body.large)
+        },
+        weekendBoost: Number(req.body.weekendBoost),
+        monthBoost: Number(req.body.monthBoost)
+      },
+      rrss: {
+        instagram: req.body.instagram,
+        tiktok: req.body.tiktok,
+        facebook: req.body.facebook,
+        twitter : req.body.twitter
+      },
+      agency: req.currentUserId,
       }
       , {
       new: true,
