@@ -12,7 +12,7 @@ const chatSchema = new Schema(
         },
       ],
       required: true,
-    },
+    },a
     timestamp: {
       type: Date,
       default: Date.now,
